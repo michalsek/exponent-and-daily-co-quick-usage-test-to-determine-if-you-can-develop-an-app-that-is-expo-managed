@@ -20,7 +20,8 @@
       "bundleIdentifier": "com.michal.sek.expodailytest",
       "infoPlist": {
         "NSCameraUsageDescription": "com.michal.sek.expodailytest want's to access your camera because he is a preverted developer",
-        "NSMicrophoneUsageDescription": "com.michal.sek.expodailytest want's to access your microphone because he is a preverted developer"
+        "NSMicrophoneUsageDescription": "com.michal.sek.expodailytest want's to access your microphone because he is a preverted developer",
+        "UIBackgroundModes": ["App provides Voice over IP services"]
       },
       "config": {
         "usesNonExemptEncryption": false

@@ -1,9 +1,23 @@
-import React, { useCallback, memo, useEffect, useRef, useMemo } from 'react';
+import React, {
+  useCallback,
+  memo,
+  useEffect,
+  useRef,
+  useMemo,
+  useState,
+} from 'react';
 import Daily from '@daily-co/react-native-daily-js';
 import { Camera } from 'expo-camera';
 
+const DailyEvents = {
+  UserJoined: 'participant-joined',
+  UserUpdated: 'participant-updated',
+  UserLeft: 'participant-left',
+};
+
 export default function useVideoRoom(roomUrl) {
   const call = useRef(null);
+  const [videoRoom, setVideoRoom] = useState(null);
 
   const [cameraPermissions, requestCameraPermissions] =
     Camera.useCameraPermissions();
@@ -55,11 +69,19 @@ export default function useVideoRoom(roomUrl) {
   const joinRoom = useCallback(async () => {
     const hasPermissions = await requestPermissions();
 
-    if (hasPermissions) {
+    if (!hasPermissions) {
       return;
     }
 
-    await call.current.join({ url: roomUrl });
+    if (call.current) {
+      leaveRoom();
+      call.current = null;
+    }
+
+    createRoom();
+    const results = await call.current.join({ url: roomUrl });
+
+    setVideoRoom(results.local);
   }, [roomUrl]);
 
   useEffect(() => {
@@ -84,5 +106,6 @@ export default function useVideoRoom(roomUrl) {
 
   return {
     permissions,
+    videoRoom,
   };
 }

@@ -1,24 +1,11 @@
-import React, { useCallback, memo, useEffect } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
-import Daily from '@daily-co/react-native-daily-js';
-import { Camera } from 'expo-camera';
+import React, { memo } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { DailyMediaView } from '@daily-co/react-native-daily-js';
 
 import useVideoRoom from '../hooks/useVideoRoom';
 
-const DailyEvents = {
-  UserJoined: 'participant-joined',
-  UserUpdated: 'participant-updated',
-  UserLeft: 'participant-left',
-};
-
 const RoomPage = ({ room, onCloseRoom }) => {
-  const { permissions } = useVideoRoom(room.url);
+  const { permissions, videoRoom } = useVideoRoom(room.url);
 
   if (permissions === 'needs-camera') {
     return (
@@ -40,9 +27,32 @@ const RoomPage = ({ room, onCloseRoom }) => {
     );
   }
 
+  if (!videoRoom) {
+    return (
+      <View style={styles.container}>
+        <Text style={{ textAlign: 'center' }}>Probably loading</Text>
+      </View>
+    );
+  }
+
+  console.log(Object.keys(videoRoom.local));
+
+  console.log({
+    hasV: !!videoRoom.videoTrack,
+    hasA: !!videoRoom.audioTrack,
+    hasL: !!videoRoom.local,
+    zOrder: videoRoom.local ? 1 : 0,
+  });
+
   return (
-    <View style={styles.container}>
-      <Text>Works so far</Text>
+    <View style={styles.mediaWrapper}>
+      <DailyMediaView
+        videoTrack={videoRoom.videoTrack}
+        audioTrack={videoRoom.audioTrack}
+        mirror={videoRoom.local}
+        zOrder={videoRoom.local ? 1 : 0}
+        style={styles.mediaView}
+      />
     </View>
   );
 };
@@ -55,5 +65,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingVertical: 100,
     paddingHorizontal: 20,
+  },
+  mediaWrapper: {
+    flex: 1,
+  },
+  mediaView: {
+    width: '100%',
+    height: '100%',
   },
 });
