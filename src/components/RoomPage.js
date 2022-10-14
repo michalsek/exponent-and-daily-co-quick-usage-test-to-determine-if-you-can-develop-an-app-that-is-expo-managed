@@ -1,11 +1,12 @@
 import React, { memo } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import { DailyMediaView } from '@daily-co/react-native-daily-js';
 
 import useVideoRoom from '../hooks/useVideoRoom';
 
 const RoomPage = ({ room, onCloseRoom }) => {
-  const { permissions, videoRoom } = useVideoRoom(room.url);
+  const { permissions, toggleMute, isMuted, currentParticipant, participants } =
+    useVideoRoom(room.url);
 
   if (permissions === 'needs-camera') {
     return (
@@ -27,7 +28,7 @@ const RoomPage = ({ room, onCloseRoom }) => {
     );
   }
 
-  if (!videoRoom) {
+  if (!currentParticipant) {
     return (
       <View style={styles.container}>
         <Text style={{ textAlign: 'center' }}>Probably loading</Text>
@@ -35,24 +36,35 @@ const RoomPage = ({ room, onCloseRoom }) => {
     );
   }
 
-  console.log(Object.keys(videoRoom.local));
-
-  console.log({
-    hasV: !!videoRoom.videoTrack,
-    hasA: !!videoRoom.audioTrack,
-    hasL: !!videoRoom.local,
-    zOrder: videoRoom.local ? 1 : 0,
-  });
-
   return (
-    <View style={styles.mediaWrapper}>
-      <DailyMediaView
-        videoTrack={videoRoom.videoTrack}
-        audioTrack={videoRoom.audioTrack}
-        mirror={videoRoom.local}
-        zOrder={videoRoom.local ? 1 : 0}
-        style={styles.mediaView}
-      />
+    <View style={styles.mediaWrapperWrapper}>
+      <View style={styles.mediaWrapper}>
+        {participants.map((participant) => (
+          <View style={styles.participantWrapper}>
+            <DailyMediaView
+              videoTrack={participant.videoTrack}
+              audioTrack={participant.audioTrack}
+              mirror={participant.local}
+              zOrder={participant.local ? 1 : 0}
+              style={styles.mediaView}
+              objectFit="cover"
+            />
+          </View>
+        ))}
+        <View style={styles.currentParticipantWrapper}>
+          <DailyMediaView
+            videoTrack={currentParticipant.videoTrack}
+            audioTrack={currentParticipant.audioTrack}
+            mirror={currentParticipant.local}
+            zOrder={currentParticipant.local ? 1 : 0}
+            style={styles.mediaView}
+            objectFit="cover"
+          />
+        </View>
+      </View>
+      <View style={styles.toolbar}>
+        <Button onPress={toggleMute} title={isMuted ? 'Unmute' : 'Mute'} />
+      </View>
     </View>
   );
 };
@@ -66,11 +78,31 @@ const styles = StyleSheet.create({
     paddingVertical: 100,
     paddingHorizontal: 20,
   },
+  mediaWrapperWrapper: {
+    flex: 1,
+  },
   mediaWrapper: {
     flex: 1,
+    backgroundColor: '#222',
+  },
+  currentParticipantWrapper: {
+    position: 'absolute',
+    width: 100,
+    height: 133,
+    borderRadius: 10,
+    bottom: 30,
+    right: 15,
+    overflow: 'hidden',
+    backgroundColor: '#faf',
   },
   mediaView: {
     width: '100%',
     height: '100%',
+  },
+  toolbar: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingVertical: 10,
+    paddingBottom: 30,
   },
 });

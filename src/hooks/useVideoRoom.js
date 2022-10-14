@@ -17,7 +17,9 @@ const DailyEvents = {
 
 export default function useVideoRoom(roomUrl) {
   const call = useRef(null);
-  const [videoRoom, setVideoRoom] = useState(null);
+  const [currentParticipant, setCurrentParticipant] = useState(null);
+  const [participants, setParticipants] = useState([]);
+  const [isMuted, setIsMuted] = useState(false);
 
   const [cameraPermissions, requestCameraPermissions] =
     Camera.useCameraPermissions();
@@ -25,18 +27,24 @@ export default function useVideoRoom(roomUrl) {
   const [microphonePermissions, requestMicrophonePermissions] =
     Camera.useMicrophonePermissions();
 
-  const onUserJoined = useCallback((event) => {}, []);
+  const onCallStateChanged = useCallback((event) => {
+    if (!call.current) {
+      return;
+    }
 
-  const onUserUpdated = useCallback((event) => {}, []);
+    const otherParticipants = Object.entries(call.current.participants())
+      .filter(([key, _p]) => key !== 'local')
+      .map(([key, p]) => p);
 
-  const onUserLeft = useCallback((event) => {}, []);
+    setParticipants(otherParticipants);
+  }, []);
 
   const createRoom = useCallback(() => {
     call.current = Daily.createCallObject();
 
-    call.current.on(DailyEvents.UserJoined, onUserJoined);
-    call.current.on(DailyEvents.UserUpdated, onUserUpdated);
-    call.current.on(DailyEvents.UserLeft, onUserLeft);
+    call.current.on(DailyEvents.UserJoined, onCallStateChanged);
+    call.current.on(DailyEvents.UserUpdated, onCallStateChanged);
+    call.current.on(DailyEvents.UserLeft, onCallStateChanged);
   }, []);
 
   const leaveRoom = useCallback(async () => {
@@ -44,9 +52,9 @@ export default function useVideoRoom(roomUrl) {
       return;
     }
 
-    call.current.off(DailyEvents.UserJoined, onUserJoined);
-    call.current.off(DailyEvents.UserUpdated, onUserUpdated);
-    call.current.off(DailyEvents.UserLeft, onUserLeft);
+    call.current.off(DailyEvents.UserJoined, onCallStateChanged);
+    call.current.off(DailyEvents.UserUpdated, onCallStateChanged);
+    call.current.off(DailyEvents.UserLeft, onCallStateChanged);
 
     console.log('Leaving the room');
     await call.current.leave();
@@ -66,6 +74,15 @@ export default function useVideoRoom(roomUrl) {
     return true;
   }, [joinRoom]);
 
+  const toggleMute = useCallback(async () => {
+    if (!call.current) {
+      return;
+    }
+
+    call.current.setLocalAudio(isMuted);
+    setIsMuted(!isMuted);
+  }, [isMuted]);
+
   const joinRoom = useCallback(async () => {
     const hasPermissions = await requestPermissions();
 
@@ -81,7 +98,8 @@ export default function useVideoRoom(roomUrl) {
     createRoom();
     const results = await call.current.join({ url: roomUrl });
 
-    setVideoRoom(results.local);
+    setCurrentParticipant(results.local);
+    setIsMuted(!results.local.audio);
   }, [roomUrl]);
 
   useEffect(() => {
@@ -106,6 +124,10 @@ export default function useVideoRoom(roomUrl) {
 
   return {
     permissions,
-    videoRoom,
+    currentParticipant,
+    participants,
+
+    toggleMute,
+    isMuted,
   };
 }
