@@ -12,6 +12,7 @@
     "@config-plugins/react-native-webrtc": "^4.0.0",
     "@daily-co/react-native-daily-js": "^0.29.0",
     "@daily-co/react-native-webrtc": "^1.94.1-daily.5",
+    "@expo/config-plugins": "^5.0.0",
     "@react-native-async-storage/async-storage": "~1.17.3",
     "@react-navigation/bottom-tabs": "^6.4.0",
     "@react-navigation/drawer": "^6.5.0",
