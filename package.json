@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "scripts": {
     "clean:start:ios": "rm -rf ./ios; rm -rf ./expo; expo run:ios",
-    "clean:start:android": "rm -rf ./android; rm -rf ./expo; expo run:android"
+    "clean:start:android": "rm -rf ./android; rm -rf ./expo; expo run:android",
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "dependencies": {
+    "@config-plugins/react-native-webrtc": "^4.0.0",
     "@daily-co/react-native-daily-js": "^0.29.0",
     "@daily-co/react-native-webrtc": "^1.94.1-daily.5",
     "@react-native-async-storage/async-storage": "~1.17.3",
@@ -17,7 +21,7 @@
     "babel-plugin-inline-dotenv": "^1.7.0",
     "base-64": "^1.0.0",
     "events": "^3.3.0",
-    "expo": "~46.0.13",
+    "expo": "~46.0.16",
     "expo-asset": "~8.6.1",
     "expo-auth-session": "~3.7.1",
     "expo-camera": "~12.3.0",

@@ -17,10 +17,10 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.michal.sek.expodailytest",
+      "bundleIdentifier": "chat.globalstudy.expodailytest",
       "infoPlist": {
-        "NSCameraUsageDescription": "com.michal.sek.expodailytest want's to access your camera because he is a preverted developer",
-        "NSMicrophoneUsageDescription": "com.michal.sek.expodailytest want's to access your microphone because he is a preverted developer",
+        "NSCameraUsageDescription": "chat.globalstudy.expodailytest want's to access your camera because he is a preverted developer",
+        "NSMicrophoneUsageDescription": "chat.globalstudy.expodailytest want's to access your microphone because he is a preverted developer",
         "UIBackgroundModes": ["App provides Voice over IP services"]
       },
       "config": {
@@ -32,18 +32,20 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.michal.sek.expodailytest",
+      "package": "chat.globalstudy.expodailytest",
+      "minSdkVersion": 24,
       "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
+      "@config-plugins/react-native-webrtc",
       [
         "expo-camera",
         {
-          "cameraPermission": "com.michal.sek.expodailytest want's to access your camera because he is a preverted developer",
-          "microphonePermission": "com.michal.sek.expodailytest want's to access your microphone because he is a preverted developer"
+          "cameraPermission": "chat.globalstudy.expodailytest want's to access your camera because he is a preverted developer",
+          "microphonePermission": "chat.globalstudy.expodailytest want's to access your microphone because he is a preverted developer"
         }
       ]
     ]
