@@ -12,14 +12,14 @@
       }
     },
     "preview_staging": {
-      "releaseChannel": "staging",
+      "channel": "staging",
       "distribution": "internal",
       "env": {
         "APP_ENV": "Staging"
       }
     },
     "staging": {
-      "releaseChannel": "staging",
+      "channel": "staging",
       "env": {
         "APP_ENV": "Staging"
       }
@@ -29,11 +29,11 @@
         "simulator": true
       },
       "distribution": "internal",
-      "releaseChannel": "production",
+      "channel": "production",
       "env": {}
     },
     "production": {
-      "releaseChannel": "production",
+      "channel": "production",
       "env": {}
     }
   },
