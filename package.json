@@ -7,7 +7,7 @@
     "start": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "update:staging": "DAILY_API_TOKEN=6b2ad24cb08b8514205b94b7af3477b27649d1cc5838567a8cffe27c9481a1c3 UPDATE_ENV=local-update-secret BUILD_AND_UPDATE_ENV=local-update-and-build-secret eas update --branch staging",
+    "update:staging": "UPDATE_ENV=local-update-secret BUILD_AND_UPDATE_ENV=local-update-and-build-secret eas update --branch staging",
     "update:production": "UPDATE_ENV=local-update-secret BUILD_AND_UPDATE_ENV=local-update-and-build-secret eas update --branch production"
   },
   "dependencies": {
