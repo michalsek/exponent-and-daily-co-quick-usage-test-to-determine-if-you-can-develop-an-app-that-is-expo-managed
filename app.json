@@ -18,7 +18,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "runtimeVersion": {
-      "policy": "sdkVersion"
+      "policy": "appVersion"
     },
     "ios": {
       "supportsTablet": true,
