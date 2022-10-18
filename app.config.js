@@ -1,7 +1,4 @@
-const {
-  createRunOncePlugin,
-  withAppBuildGradle,
-} = require('@expo/config-plugins');
+const { withAppBuildGradle } = require('@expo/config-plugins');
 
 const withAppBuildGradleModified = (config) => {
   return withAppBuildGradle(config, async (file) => {

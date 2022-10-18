@@ -5,12 +5,36 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "APP_ENV": "Development"
+      }
     },
-    "preview": {
-      "distribution": "internal"
+    "preview_staging": {
+      "releaseChannel": "staging",
+      "distribution": "internal",
+      "env": {
+        "APP_ENV": "Staging"
+      }
     },
-    "production": {}
+    "staging": {
+      "releaseChannel": "staging",
+      "env": {
+        "APP_ENV": "Staging"
+      }
+    },
+    "preview_prod": {
+      "ios": {
+        "simulator": true
+      },
+      "distribution": "internal",
+      "releaseChannel": "production",
+      "env": {}
+    },
+    "production": {
+      "releaseChannel": "production",
+      "env": {}
+    }
   },
   "submit": {
     "production": {}

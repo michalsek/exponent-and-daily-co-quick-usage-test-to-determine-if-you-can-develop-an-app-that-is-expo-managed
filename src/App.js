@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, Button, StyleSheet } from 'react-native';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import * as Updates from 'expo-updates';
 
 import RoomList from './components/RoomList';
 import RoomPage from './components/RoomPage';
@@ -33,6 +34,14 @@ export default function App() {
 
   const onCloseRoom = useCallback(async () => {
     setCurrentRoomId(null);
+  }, []);
+
+  const onFetchUpdates = useCallback(async () => {
+    await Updates.fetchUpdateAsync();
+  }, []);
+
+  const onReloadUpdates = useCallback(async () => {
+    await Updates.reloadAsync();
   }, []);
 
   useEffect(() => {
@@ -69,6 +78,18 @@ export default function App() {
       <StatusBar style="auto" />
       <RoomList rooms={rooms} onOpenRoom={onOpenRoom} />
       <Button onPress={onCreateNewRoom} title="Create New Room" />
+      <View>
+        <Text>Dummy text no. 1</Text>
+        <Text>{`ReleaseChannel: ${Updates.releaseChannel}`}</Text>
+        <Text>{`AppEnv: ${process.env.APP_ENV ?? 'production'}`}</Text>
+        <Text>{`BuildEnv: ${process.env.BUILD_ENV ?? ''}`}</Text>
+        <Text>{`UpdateEnv: ${process.env.UPDATE_ENV ?? ''}`}</Text>
+        <Text>{`BuildAndUpdateEnv: ${
+          process.env.BUILD_AND_UPDATE_ENV ?? ''
+        }`}</Text>
+        <Button onPress={onFetchUpdates} title="Fetch Update" />
+        <Button onPress={onReloadUpdates} title="Install Update" />
+      </View>
     </View>
   );
 }

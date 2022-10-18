@@ -2,7 +2,7 @@
   "expo": {
     "name": "expo-daily-test",
     "slug": "expo-daily-test",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -12,9 +12,14 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "enabled": true,
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/5196f05a-5db9-4608-908c-beb55b390455"
     },
     "assetBundlePatterns": ["**/*"],
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "chat.globalstudy.expodailytest",
@@ -25,7 +30,8 @@
       },
       "config": {
         "usesNonExemptEncryption": false
-      }
+      },
+      "bitcode": false
     },
     "android": {
       "adaptiveIcon": {
@@ -34,7 +40,17 @@
       },
       "package": "chat.globalstudy.expodailytest",
       "minSdkVersion": 24,
-      "versionCode": 1
+      "versionCode": 2,
+      "permissions": [
+        "android.permission.ACCESS_NETWORK_STATE",
+        "android.permission.BLUETOOTH",
+        "android.permission.CAMERA",
+        "android.permission.INTERNET",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.WAKE_LOCK"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -48,6 +64,11 @@
           "microphonePermission": "chat.globalstudy.expodailytest want's to access your microphone because he is a preverted developer"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "5196f05a-5db9-4608-908c-beb55b390455"
+      }
+    }
   }
 }
